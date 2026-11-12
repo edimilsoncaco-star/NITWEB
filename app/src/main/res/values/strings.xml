@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Painel Nexus</string>
+    <string name="notification_title">Nexus Proxy Ativo</string>
+    <string name="notification_text">ESP e Aimbot funcionando</string>
+</resources>

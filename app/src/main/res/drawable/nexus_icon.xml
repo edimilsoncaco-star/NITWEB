@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Fundo preto -->
+    <path
+        android:fillColor="#0A0A0A"
+        android:pathData="M0,0 L48,0 L48,48 L0,48 Z" />
+
+    <!-- Letra N em vermelho neon — traçado bold de 3dp -->
+    <!-- Perna esquerda do N (vertical) -->
+    <path
+        android:strokeColor="#FF1744"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M12,38 L12,10 L36,38 L36,10" />
+
+</vector>
