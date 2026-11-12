@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sw_esp_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_panel_title"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sw_esp_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/sw_esp_line"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sw_esp_skeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/sw_esp_box"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sw_esp_distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@id/sw_esp_skeleton"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sw_aimbot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

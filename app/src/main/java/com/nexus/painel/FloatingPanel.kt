@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.SeekBar
-import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 import android.widget.TextView
 
 class FloatingPanel(context: Context) : FrameLayout(context) {
@@ -79,11 +79,11 @@ class FloatingPanel(context: Context) : FrameLayout(context) {
     private fun setupMenu(context: Context) {
         menuView = LayoutInflater.from(context).inflate(R.layout.floating_panel, this, false)
 
-        val switchLine     = menuView.findViewById<Switch>(R.id.sw_esp_line)
-        val switchBox      = menuView.findViewById<Switch>(R.id.sw_esp_box)
-        val switchSkeleton = menuView.findViewById<Switch>(R.id.sw_esp_skeleton)
-        val switchDistance = menuView.findViewById<Switch>(R.id.sw_esp_distance)
-        val switchAimbot   = menuView.findViewById<Switch>(R.id.sw_aimbot)
+        val switchLine     = menuView.findViewById<SwitchCompat>(R.id.sw_esp_line)
+        val switchBox      = menuView.findViewById<SwitchCompat>(R.id.sw_esp_box)
+        val switchSkeleton = menuView.findViewById<SwitchCompat>(R.id.sw_esp_skeleton)
+        val switchDistance = menuView.findViewById<SwitchCompat>(R.id.sw_esp_distance)
+        val switchAimbot   = menuView.findViewById<SwitchCompat>(R.id.sw_aimbot)
         val seekFov        = menuView.findViewById<SeekBar>(R.id.seek_fov)
         val tvFov          = menuView.findViewById<TextView>(R.id.tv_fov_label)
 

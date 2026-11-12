@@ -52,7 +52,7 @@ class NexusVpnService : VpnService() {
         val raw    = ByteArray(MTU)
 
         // protect() deve ser chamado UMA VEZ no fd, antes do loop
-        protect(fd.fd)
+        protect(fd.fileDescriptor)
 
         while (running) {
             val n = try { input.read(raw, 0, MTU) } catch (e: Exception) { break }
