@@ -1,58 +1,23 @@
 #!/data/data/com.termux/files/usr/bin/bash
-set -e
+set -euo pipefail
 
-# FILL: seus dados do GitHub
-GH_USER="SEU_USUARIO"
-GH_TOKEN="ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 REPO_NAME="PainelNexus"
 
-echo "=== Painel Nexus — Setup Termux ==="
+echo "=== Painel Nexus — publicação segura ==="
+pkg update -y
+pkg install -y git gh openjdk-17
 
-# Permissão de storage (confirmar no popup)
-termux-setup-storage
-sleep 2
-
-# Dependências
-pkg update -y && pkg upgrade -y
-pkg install git openjdk-17 -y
-
-# Configurar git
-git config --global user.name "${GH_USER}"
-git config --global user.email "${GH_USER}@users.noreply.github.com"
-git config --global credential.helper store
-echo "https://${GH_USER}:${GH_TOKEN}@github.com" > ~/.git-credentials
-chmod 600 ~/.git-credentials
-
-REPO_URL="https://github.com/${GH_USER}/${REPO_NAME}.git"
-
-# Cria repositório no GitHub se não existir
-echo "=== Criando repositório no GitHub ==="
-curl -s \
-  -H "Authorization: token ${GH_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d "{\"name\":\"${REPO_NAME}\",\"private\":true,\"description\":\"Painel Nexus ESP — Free Fire\"}" \
-  https://api.github.com/user/repos > /dev/null
-
-# Clona ou entra na pasta
-if [ ! -d "${REPO_NAME}" ]; then
-    git clone "${REPO_URL}" "${REPO_NAME}" 2>/dev/null || true
+if ! gh auth status >/dev/null 2>&1; then
+  echo "Faça login primeiro com: gh auth login"
+  exit 1
 fi
 
-# Se clone falhou (repo vazio), inicializa local
-if [ ! -d "${REPO_NAME}/.git" ]; then
-    mkdir -p "${REPO_NAME}"
+if [ ! -f "settings.gradle" ] || [ ! -d "app/src/main" ]; then
+  echo "Execute este script na pasta raiz do projeto (onde está settings.gradle)."
+  exit 1
 fi
 
-cd "${REPO_NAME}"
-
-# Copia arquivos do projeto se veio por zip
-# (ajuste o caminho se necessário)
-if [ -d ~/storage/shared/PainelNexusFixed ]; then
-    cp -r ~/storage/shared/PainelNexusFixed/. .
-fi
-
-# .gitignore
-cat > .gitignore << 'GITIGNORE'
+cat > .gitignore <<'GITIGNORE'
 *.iml
 .gradle/
 local.properties
@@ -67,19 +32,25 @@ captures/
 *.keystore
 GITIGNORE
 
-git init 2>/dev/null || true
-git remote remove origin 2>/dev/null || true
-git remote add origin "${REPO_URL}"
-git branch -M main
-
+git init
 git add .
-git commit -m "feat: Painel Nexus v1 — ESP + VPN local + aimbot + BootReceiver" --allow-empty
+if ! git diff --cached --quiet; then
+  git -c user.name="Nexus Project" \
+      -c user.email="nexus-project@users.noreply.github.com" \
+      commit -m "chore: publish Painel Nexus utility panel"
+fi
+
+if ! gh repo view "$REPO_NAME" >/dev/null 2>&1; then
+  gh repo create "$REPO_NAME" --private --source=. --remote=origin
+else
+  if ! git remote get-url origin >/dev/null 2>&1; then
+    gh repo set-default "$REPO_NAME"
+    git remote add origin "$(gh repo view "$REPO_NAME" --json url -q .url).git"
+  fi
+fi
+
+git branch -M main
 git push -u origin main
 
-echo ""
-echo "=== Push feito com sucesso ==="
-echo "=== Acompanhe o build APK em: ==="
-echo "https://github.com/${GH_USER}/${REPO_NAME}/actions"
-echo ""
-echo "=== Quando o build terminar, baixe o APK em: ==="
-echo "https://github.com/${GH_USER}/${REPO_NAME}/actions -> último workflow -> Artifacts"
+echo "Publicação concluída."
+echo "Build do APK: abra a aba Actions do repositório no GitHub."
